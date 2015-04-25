@@ -14,9 +14,9 @@ var feed = {
   imgSet : 1,
   postData : function(data) {
     var options = {
-      host: 'localhost',
+      host: 'https://t9-dataserver.herokuapp.com',
       path: '/feedimg',
-      port: '5000',
+      port: '24108',
       method: 'POST'
     };
     var sendcb = function (res) {
