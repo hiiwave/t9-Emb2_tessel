@@ -74,7 +74,7 @@ var feed = {
       fs.readFile(fileName, function (err, data) {
         if (err) throw err;
         var imgPacket = {
-          raw: data.toString(),
+          raw: data,
           contentType: fileType
         };
         feed.postData(JSON.stringify(imgPacket));
