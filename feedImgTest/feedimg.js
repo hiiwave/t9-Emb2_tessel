@@ -14,7 +14,7 @@ var feed = {
   postData : function(data) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://t9-dataserver.herokuapp.com/feedimg');
-    // xhr.onload = sendSuccess;
+    // xhr.open('POST', 'localhost:5000/feedimg');
     xhr.onreadystatechange = function (oEvent) {  
       if (xhr.readyState === 4) {  
         if (xhr.status === 200) {  
