@@ -1,6 +1,5 @@
-// Please run by node.js
-
-var http = require('http')
+// var tessel = require('tessel');
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 var fs = require('fs');
 
 var feed = {
@@ -13,6 +12,27 @@ var feed = {
   ready : true,
   imgSet : 1,
   postData : function(data) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://t9-dataserver.herokuapp.com/feedimg');
+    // xhr.onload = sendSuccess;
+    xhr.onreadystatechange = function (oEvent) {  
+      if (xhr.readyState === 4) {  
+        if (xhr.status === 200) {  
+          console.log('Got response: ' + xhr.responseText);
+          feed.ready = true;
+          ++feed.imgSet;
+        } else {  
+          console.error("Error: ", xhr.statusText);  
+          console.log("Retry later..");
+          feed.ready = true;
+        }  
+      }
+    };
+    xhr.send(data); 
+  },
+  postDataByHttp : function(data) {
+    // not work with heroku
+    var http = require('http');
     var options = {
       host: 'https://t9-dataserver.herokuapp.com',
       path: '/feedimg',
@@ -50,12 +70,11 @@ var feed = {
         fileName = 'sad.png';
         fileType = 'image/png';
     }
-    var rawdata;
     try {
       fs.readFile(fileName, function (err, data) {
         if (err) throw err;
         var imgPacket = {
-          raw: data,
+          raw: data.toString(),
           contentType: fileType
         };
         feed.postData(JSON.stringify(imgPacket));
